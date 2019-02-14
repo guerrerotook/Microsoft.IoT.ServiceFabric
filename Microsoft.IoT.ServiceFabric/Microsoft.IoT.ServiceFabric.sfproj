@@ -32,7 +32,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Alams\Microsoft.IoT.ServiceFabric.Alams.csproj" />
+    <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Core\Microsoft.IoT.ServiceFabric.Core.csproj" />
     <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Ingest\Microsoft.IoT.ServiceFabric.Ingest.csproj" />
+    <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Validation\Microsoft.IoT.ServiceFabric.Validation.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

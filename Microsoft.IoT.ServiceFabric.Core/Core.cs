@@ -9,6 +9,8 @@
     using Microsoft.IoT.ServiceFabric.Core.Interfaces;
     using Microsoft.IoT.ServiceFabric.Core.Interfaces.Model;
     using Microsoft.IoT.ServiceFabric.Model;
+    using Microsoft.IoT.ServiceFabric.Validation.Interfaces;
+    using Microsoft.IoT.ServiceFabric.Validation.Interfaces.Model;
     using Microsoft.ServiceFabric.Services.Client;
     using Microsoft.ServiceFabric.Services.Communication.Client;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -42,24 +44,15 @@
                 // do the logic
                 result.IsSuccess = true;
 
-                IAlarmService proxy = proxyFactory.CreateServiceProxy<IAlarmService>(
-                    new Uri(
-                        string.Concat(Context.CodePackageActivationContext.ApplicationName, "/Microsoft.IoT.ServiceFabric.Alams")),
-                    new ServicePartitionKey(0L),
-                    TargetReplicaSelector.PrimaryReplica);
+                // save to CosmosDb
+                string cosmosDBConnection = Context.ReadConfigurationSettingValue("Database", "CosmosDB");
 
-                using (MeasureTime measure = new MeasureTime())
-                {
 
-                    ServiceResponse<AlarmServiceResponse> response = await proxy.ProcessMessage(value);
+                // end save to cosmosDB
 
-                    response.IsSuccess = response != null;
-
-                    telemetry.TrackEvent(
-                        "Core-Alarm-Call", 
-                        new Dictionary<string, string>() { { "Id", value.Id } }, 
-                        new Dictionary<string, double>() { { "CoreElapsed", measure.Elapsed.TotalMilliseconds } });
-                }
+                
+                await CallValidationService(value);
+                await CallAlarmaService(value);
 
                 telemetry.TrackEvent(
                        "CoreService",
@@ -72,6 +65,50 @@
             }
 
             return result;
+        }
+
+        private async Task CallValidationService(ServiceCoreRequest value)
+        {
+            IValidationService proxy = proxyFactory.CreateServiceProxy<IValidationService>(
+                                new Uri(
+                                    string.Concat(Context.CodePackageActivationContext.ApplicationName, "/Microsoft.IoT.ServiceFabric.Validation")),
+                                new ServicePartitionKey(0L),
+                                TargetReplicaSelector.PrimaryReplica);
+
+            using (MeasureTime measure = new MeasureTime())
+            {
+
+                ServiceResponse<ValidationServiceResponse> response = await proxy.ValidateMessage(value);
+
+                response.IsSuccess = response != null;
+
+                telemetry.TrackEvent(
+                    "Core-Validation-Call",
+                    new Dictionary<string, string>() { { "Id", value.Id } },
+                    new Dictionary<string, double>() { { "CoreElapsed", measure.Elapsed.TotalMilliseconds } });
+            }
+        }
+
+        private async Task CallAlarmaService(ServiceCoreRequest value)
+        {
+            IAlarmService proxy = proxyFactory.CreateServiceProxy<IAlarmService>(
+                                new Uri(
+                                    string.Concat(Context.CodePackageActivationContext.ApplicationName, "/Microsoft.IoT.ServiceFabric.Alams")),
+                                new ServicePartitionKey(0L),
+                                TargetReplicaSelector.PrimaryReplica);
+
+            using (MeasureTime measure = new MeasureTime())
+            {
+
+                ServiceResponse<AlarmServiceResponse> response = await proxy.ProcessMessage(value);
+
+                response.IsSuccess = response != null;
+
+                telemetry.TrackEvent(
+                    "Core-Alarm-Call",
+                    new Dictionary<string, string>() { { "Id", value.Id } },
+                    new Dictionary<string, double>() { { "CoreElapsed", measure.Elapsed.TotalMilliseconds } });
+            }
         }
 
         /// <summary>
@@ -103,6 +140,7 @@
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
+            // initialize
             telemetry = Context.GetTelemetryClient();
             TelemetryConfiguration.Active.InstrumentationKey = telemetry.InstrumentationKey;
 
@@ -110,6 +148,17 @@
             {
                 return new FabricTransportServiceRemotingClientFactory(serializationProvider: new ServiceRemotingJsonSerializationProvider());
             });
+            
+            // create other object
+
+            do
+            {
+
+                await Task.Delay(1000 * 5);
+
+            } while (!cancellationToken.IsCancellationRequested);
+
+            // close, dispose, exit
         }
     }
 }

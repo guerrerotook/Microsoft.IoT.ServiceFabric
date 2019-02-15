@@ -20,7 +20,10 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="" />
+  <ClusterConnectionParameters ConnectionEndpoint="demo011.westeurope.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="5EDC58668A9B67C35CE0B1F5584317B0AEAE2C61" FindType="FindByThumbprint" FindValue="5EDC58668A9B67C35CE0B1F5584317B0AEAE2C61" StoreLocation="CurrentUser" StoreName="My" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
   <CopyPackageParameters CompressPackage="true" />
+  <UpgradeDeployment Mode="Monitored" Enabled="false">
+    <Parameters FailureAction="Rollback" Force="True" />
+  </UpgradeDeployment>
 </PublishProfile>

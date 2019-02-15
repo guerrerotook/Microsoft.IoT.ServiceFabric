@@ -42,6 +42,9 @@ namespace Microsoft.IoT.ServiceFabric.Ingest
             {
                 return new FabricTransportServiceRemotingClientFactory(serializationProvider: new ServiceRemotingJsonSerializationProvider());
             });
+
+
+
         }
     }
 }

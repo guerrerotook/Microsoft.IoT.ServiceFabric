@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.IoT.ServiceFabric.Model;
+using Microsoft.IoT.ServiceFabric.Validation.Interfaces;
+using Microsoft.IoT.ServiceFabric.Validation.Interfaces.Model;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.IoT.ServiceFabric.Validation
 {
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Validation : StatelessService
+    internal sealed class Validation : StatelessService, IValidationService
     {
         public Validation(StatelessServiceContext context)
             : base(context)
         { }
+
+        public async Task<ServiceResponse<ValidationServiceResponse>> ValidateMessage(ServiceCoreRequest value)
+        {
+            return new ServiceResponse<ValidationServiceResponse>(new ValidationServiceResponse());
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.

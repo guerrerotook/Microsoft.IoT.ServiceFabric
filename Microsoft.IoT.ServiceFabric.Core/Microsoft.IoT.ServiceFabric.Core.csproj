@@ -80,8 +80,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Fabric, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.6.4.638\lib\net47\System.Fabric.dll</HintPath>
@@ -124,6 +124,10 @@
     <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Model\Microsoft.IoT.ServiceFabric.Model.csproj">
       <Project>{E218854B-FA51-4DBB-9B5D-569EBC6ED8DF}</Project>
       <Name>Microsoft.IoT.ServiceFabric.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.IoT.ServiceFabric.Validation.Interfaces\Microsoft.IoT.ServiceFabric.Validation.Interfaces.csproj">
+      <Project>{dbed17a8-0005-49d8-a90a-7ba3a46cdeb5}</Project>
+      <Name>Microsoft.IoT.ServiceFabric.Validation.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

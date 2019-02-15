@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F084A7E-FE24-4EF6-AA49-AB91356844B1}</ProjectGuid>
+    <ProjectGuid>{DBED17A8-0005-49D8-A90A-7BA3A46CDEB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.IoT.ServiceFabric.Alams.Interfaces</RootNamespace>
-    <AssemblyName>Microsoft.IoT.ServiceFabric.Alams.Interfaces</AssemblyName>
+    <RootNamespace>Microsoft.IoT.ServiceFabric.Validation.Interfaces</RootNamespace>
+    <AssemblyName>Microsoft.IoT.ServiceFabric.Validation.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -106,8 +106,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAlarmService.cs" />
-    <Compile Include="Model\AlarmServiceResponse.cs" />
+    <Compile Include="IValidationService.cs" />
+    <Compile Include="Model\ValidationServiceResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

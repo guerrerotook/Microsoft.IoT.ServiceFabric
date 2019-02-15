@@ -13,4 +13,13 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+
+  <Section Name="ApplicationInsights">
+    <Parameter Name="InstrumentationKey" Value="b4403463-aea3-473f-862e-52d8145f97e7" />
+  </Section>
+
+  <Section Name="Database">
+    <Parameter Name="SqlConnectionString" Value="" />
+    <Parameter Name="CosmosDB" Value="" />
+  </Section>
 </Settings>
